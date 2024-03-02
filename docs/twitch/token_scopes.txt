@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------------------------------------
-TOKEN FOR BROADCASTER ONLY (requires BROADCASTER token NOT BOT)
+TOKEN FOR BROADCASTER ONLY (requires BROADCASTER token NOT BOT)                                -------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ADS:          channel:edit:commercial        :  Start Commercial
 ADS:          channel:read:ads               :  Get Ad Schedule
@@ -29,7 +29,7 @@ RAIDS:        channel:manage:raids           :  start/cancel raid
 SCHEDULE:     channel:manage:schedule        :  create/update/delete channel stream schedule
 
 ------------------------------------------------------------------------------------------------------------------------
-TOKENS AVAILABLE TO MODERATE CHANNEL
+TOKENS AVAILABLE TO MODERATE CHANNEL                                                           -------------------------
 ------------------------------------------------------------------------------------------------------------------------
 AVAILABILITY: channel:moderate               :  to perform mod actions
 CHANNEL(MOD): moderator:read:followers       :  get users who is followed channel
@@ -51,7 +51,7 @@ PREDICT(MOD): channel:manage:predictions     :  create/end prediction
 MARKER (EDITOR): channel:manage:broadcast    :  create stream marker only
 
 ------------------------------------------------------------------------------------------------------------------------
-GENERAL USER TOKEN SCOPES
+GENERAL USER TOKEN SCOPES                                                                      -------------------------
 ------------------------------------------------------------------------------------------------------------------------
 INFO        : user:read:email                :  Get user information id/email/nickname
 CHANNEL     : user:read:follows              :  Get list of Channel authorized user is following
@@ -70,7 +70,7 @@ WHISPER     : user:manage:whispers           :  send whisper message to user
 
 
 ========================================================================================================================
-EXAMPLE OF AUTH URLS:
+EXAMPLE OF AUTH URLS:                                                                          =========================
 ========================================================================================================================
 
 bot(mod + editor): https://id.twitch.tv/oauth2/authorize?client_id=12345&redirect_uri=http%3A%2F%2Flocalhost%3A8013%2F&scope=
