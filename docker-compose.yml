@@ -1,0 +1,51 @@
+# DEFAULT DOCKER-COMPOSE UP COMMAND in LINUX (to pickup PROD variables)
+# RUNTIME_ENV=prod bash -c 'docker-compose up -d --build'
+
+# DEFAULT DOCKER-COMPOSE UP COMMAND in LINUX (to pickup LOCAL variables)
+# docker-compose up -d
+
+# COMMAND TO START MONGO EXPRESS FOR TESTING
+# docker run -it --rm --network wlgbot-tg_back --name mongo-express -p 8081:8081 -e ME_CONFIG_MONGODB_AUTH_USERNAME=wlgbot -e ME_CONFIG_MONGODB_AUTH_PASSWORD=secret_wlgbot_mongo_password_database -e ME_CONFIG_MONGODB_SERVER=mongodb -e ME_CONFIG_MONGODB_PORT=27018 -e ME_CONFIG_MONGODB_AUTH_DATABASE=wlgbot_database mongo-express
+
+
+services:
+  mongodb:
+    image: bitnami/mongodb:7.0.3
+    ports:
+      - 27015:27015
+    restart: unless-stopped
+#    env_file:
+#      - ./asd
+    volumes:
+      - mongodb:/bitnami/mongodb/:rw
+    networks:
+      back:
+
+  bot-twitch:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        module: bot-twitch
+    image: wlgbot/bot-twitch
+    ports:
+      - 15610:15610
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Moscow
+    networks:
+      back:
+
+volumes:
+  mongodb:
+    driver: local
+    name: wlgbot_db_mongo
+
+networks:
+  back:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.16.230.0/24
+          gateway: 173.16.230.1
