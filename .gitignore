@@ -7,6 +7,7 @@
 
 # User-specific stuff
 .idea/jarRepositories.xml
+.idea/dataSources.xml
 .idea/workspace.xml
 .idea/encodings.xml
 .idea/compiler.xml
