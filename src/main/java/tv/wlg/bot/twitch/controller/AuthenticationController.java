@@ -1,8 +1,8 @@
 package tv.wlg.bot.twitch.controller;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,13 +20,13 @@ public class AuthenticationController {
             </html>
             """;
 
-    @GetMapping(value = "/auth", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "auth", produces = MediaType.TEXT_HTML_VALUE)
     public String authenticate(
-            @Param("code")  String code,
-            @Param("scope") String scope,
-            @Param("state") long state,
-            @Param("error") String error,
-            @Param("error_description") String errorDescription
+            @RequestParam(name = "code")  String code,
+            @RequestParam(name = "scope") String scope,
+            @RequestParam(name = "state") long state,
+            @RequestParam(name = "error", required = false) String error,
+            @RequestParam(name = "error_description", required = false) String errorDescription
     ) {
         if (error != null || errorDescription != null) {
             return String.format(response, "error: " + error + " - " + errorDescription);
