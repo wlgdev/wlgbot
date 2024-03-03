@@ -1,0 +1,30 @@
+server:
+  port: 15610
+
+#MONGODB SERVER CONFIGURATIONS (for docker-compose.yml)
+ALLOW_EMPTY_PASSWORD: no
+MONGODB_PORT_NUMBER: 27015
+MONGODB_ENABLE_JOURNAL: false
+MONGODB_ENABLE_DIRECTORY_PER_DB: yes
+MONGODB_ROOT_USER: mongoroot
+MONGODB_ROOT_PASSWORD: WL6B0tPAssw0rd
+
+#MONGODB Spring Configurations (for application to startup)
+MONGODB_HOST_NAME: localhost
+MONGODB_AUTH_DATABASE: admin
+
+mongodb:
+  trusted:
+    host: ${MONGODB_HOST_NAME}
+    port: ${MONGODB_PORT_NUMBER}
+    database: trusted
+    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
+    username: trusted_user
+    password: trusted_user_secret_super_password
+  remote:
+    host: ${MONGODB_HOST_NAME}
+    port: ${MONGODB_PORT_NUMBER}
+    database: remote
+    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
+    username: remote_user
+    password: remote_user_secret_super_password
