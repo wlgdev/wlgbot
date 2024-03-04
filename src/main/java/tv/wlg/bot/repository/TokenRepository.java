@@ -2,13 +2,14 @@ package tv.wlg.bot.repository;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 import tv.wlg.bot.model.Token;
-import tv.wlg.bot.repository.mongo.Repository;
+import tv.wlg.bot.repository.mongo.MongoRepository;
 
 import java.util.List;
 
-@org.springframework.stereotype.Repository
-public interface TokenRepository extends Repository<Token> {
+@Repository
+public interface TokenRepository extends MongoRepository<Token> {
     @Query("{ 'user_id' : ?0 }")
     List<Token> findTokensByUserId(String userId);
 

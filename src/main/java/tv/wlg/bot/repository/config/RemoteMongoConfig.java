@@ -11,12 +11,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+
+
 @Configuration
 @EnableMongoRepositories(
         mongoTemplateRef = "remoteMongoTemplate"
 )
 public class RemoteMongoConfig {
-
 
     @Bean(name = "remoteMongoProperties")
     @ConfigurationProperties(prefix = "mongodb.remote")

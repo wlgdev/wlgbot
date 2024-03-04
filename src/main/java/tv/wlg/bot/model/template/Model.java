@@ -1,7 +1,15 @@
 package tv.wlg.bot.model.template;
 
+import lombok.Getter;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
 import java.util.Map;
 
+@Getter
 public abstract class Model {
-    public abstract Map<String, String> getKey();
+    @SuppressWarnings("unused")
+    @MongoId private ObjectId id;
+
+    public abstract Map<String, String> asKey();
 }

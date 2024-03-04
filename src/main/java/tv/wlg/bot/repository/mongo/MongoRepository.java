@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.FindAndReplaceOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +16,8 @@ import tv.wlg.bot.model.template.Model;
 import java.util.List;
 
 @SuppressWarnings({"unchecked", "UnusedReturnValue", "unused"})
-public interface Repository<T extends Model> extends MongoRepository<T, String> {
-    Logger log = LoggerFactory.getLogger(Repository.class);
+public interface MongoRepository<T extends Model> extends org.springframework.data.mongodb.repository.MongoRepository<T, String> {
+    Logger log = LoggerFactory.getLogger(MongoRepository.class);
 
     MongoTemplate trustedMongoTemplate = (MongoTemplate) ApplicationContextProvider.getContext().getBean("trustedMongoTemplate");
     MongoTemplate remoteMongoTemplate = (MongoTemplate) ApplicationContextProvider.getContext().getBean("remoteMongoTemplate");
@@ -144,7 +143,7 @@ public interface Repository<T extends Model> extends MongoRepository<T, String> 
 
     private Query createQuery(T entity) {
         Criteria criteria = new Criteria();
-        entity.getKey().forEach((key, value) -> criteria.and(key).is(value));
+        entity.asKey().forEach((key, value) -> criteria.and(key).is(value));
 
         return new Query().addCriteria(criteria);
     }
