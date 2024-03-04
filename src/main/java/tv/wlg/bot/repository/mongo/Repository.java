@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.lang.NonNull;
 import tv.wlg.bot.config.ApplicationContextProvider;
 import tv.wlg.bot.model.template.Model;
 
@@ -22,40 +23,104 @@ public interface Repository<T extends Model> extends MongoRepository<T, String> 
     MongoTemplate trustedMongoTemplate = (MongoTemplate) ApplicationContextProvider.getContext().getBean("trustedMongoTemplate");
     MongoTemplate remoteMongoTemplate = (MongoTemplate) ApplicationContextProvider.getContext().getBean("remoteMongoTemplate");
 
-    @Override
-    default <S extends T> S save(S entity) {
-        return (S) updateCollection(entity, entity.getClass().getSimpleName().toLowerCase(), trustedMongoTemplate);
+    /**
+     * Saves data class in default MongoDB collection.
+     * default collection name is the class name of data.
+     * @param entity S
+     * @return S
+     */
+    @Override @NonNull
+    default <S extends T> S save(@NonNull S entity) {
+        return updateCollection(entity, entity.getClass().getSimpleName().toLowerCase(), trustedMongoTemplate);
     }
 
+    /**
+     * Saves data class in second MongoDB repository with default collection.
+     * default collection name is the class name of data.
+     * @param entity S
+     * @return S
+     */
     default <S extends T> S saveRemote(S entity) {
-        return (S) updateCollection(entity, entity.getClass().getSimpleName().toLowerCase(), remoteMongoTemplate);
+        return updateCollection(entity, entity.getClass().getSimpleName().toLowerCase(), remoteMongoTemplate);
     }
 
-    default T save(T entity, String collection) {
+    /**
+     * Saves data class in MongoDB repository with specific collection name.
+     * @param entity S
+     * @param collection String
+     * @return S
+     */
+    default <S extends T> S save(S entity, String collection) {
         return updateCollection(entity, collection, trustedMongoTemplate);
     }
 
-    default T saveRemote(T entity, String collection) {
+    /**
+     * Saves data class in second MongoDB repository with specific collection name.
+     * @param entity S
+     * @param collection String
+     * @return S
+     */
+    default <S extends T> S saveRemote(S entity, String collection) {
         return updateCollection(entity, collection, remoteMongoTemplate);
     }
 
+    /**
+     * find all records which applies Query.
+     * @param query which data to get
+     * @param collection from which collection
+     * @return List of elements
+     */
     default List<T> find(Query query, String collection) {
         return find(query, collection, trustedMongoTemplate);
     }
 
+    /**
+     * find all records which applies Query.
+     * @param query which data to get
+     * @param collection from which collection
+     * @return List of elements
+     */
     default List<T> findRemote(Query query, String collection) {
         return find(query, collection, remoteMongoTemplate);
     }
 
+    /**
+     * Deletes entity element from standard MongoDB collection
+     * @param entity element to delete
+     */
+    @Override
+    default void delete(@NonNull T entity) {
+        deleteRecord(entity, entity.getClass().getSimpleName().toLowerCase(), trustedMongoTemplate);
+    }
+
+    /**
+     * Deletes entity element from standard MongoDB collection
+     * @param entity element to delete
+     */
+    default void deleteRemote(@NonNull T entity) {
+        deleteRecord(entity, entity.getClass().getSimpleName().toLowerCase(), remoteMongoTemplate);
+    }
+
+    /**
+     * Deletes entity element from custom MongoDB collection
+     * @param entity element to delete
+     */
     default DeleteResult delete(T entity, String collection) {
         return deleteRecord(entity, collection, trustedMongoTemplate);
     }
 
+    /**
+     * Deletes entity element from custom MongoDB collection
+     * @param entity element to delete
+     */
     default DeleteResult deleteRemote(T entity, String collection) {
         return deleteRecord(entity, collection, remoteMongoTemplate);
     }
 
-    private T updateCollection(T entity, String collection, MongoTemplate mongoTemplate) {
+    //------------------------------------------------------------------------------------------------------------------
+    // private methods to do exact action required to perform
+    //------------------------------------------------------------------------------------------------------------------
+    private <S extends T> S updateCollection(S entity, String collection, MongoTemplate mongoTemplate) {
         Query query = createQuery(entity);
         if (!find(query, collection, mongoTemplate).isEmpty()) {
             log.info("update {} in   {}", entity, collection);
@@ -77,7 +142,7 @@ public interface Repository<T extends Model> extends MongoRepository<T, String> 
         return mongoTemplate.remove(query, collection);
     }
 
-    default Query createQuery(T entity) {
+    private Query createQuery(T entity) {
         Criteria criteria = new Criteria();
         entity.getKey().forEach((key, value) -> criteria.and(key).is(value));
 

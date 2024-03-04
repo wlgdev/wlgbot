@@ -25,14 +25,22 @@ public class TwitchBotApplication {
         TokenRepository tokenRepository = ApplicationContextProvider.getContext().getBean(TokenRepository.class);
 
         Token token = new Token();
-        token.setUserId("4");
+        String id = "1";
+        token.setUserId(id);
         token.setScope("test");
         token.setRefreshToken("123");
 
         tokenRepository.save(token);
 
-        List<Token> returned = tokenRepository.findTokensByUserId("4");
-        Token returned2 = tokenRepository.findFirstByUserId("4");
-        Token returned3 = tokenRepository.findByUserId("4");
+        List<Token> returned = tokenRepository.findTokensByUserId(id);
+        Token returned2 = tokenRepository.findFirstByUserId(id);
+        Token returned3 = tokenRepository.findByUserId(id);
+
+        token.setScope("test - extended");
+        tokenRepository.save(token);
+
+        token.setUserId("2");
+        tokenRepository.save(token);
+        tokenRepository.delete(token);
     }
 }
