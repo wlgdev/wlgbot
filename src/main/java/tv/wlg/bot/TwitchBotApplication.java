@@ -42,8 +42,7 @@ public class TwitchBotApplication {
         token.setRefreshToken("refreshed");
         tokenRepository.save(token);
 
-//        token.setUserId("changed");
-//        tokenRepository.save(token);
-//        tokenRepository.delete(token);
+        token.setUserId("changed");
+        tokenRepository.save(token);
     }
 }
