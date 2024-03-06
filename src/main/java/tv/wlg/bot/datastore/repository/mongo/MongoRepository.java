@@ -31,7 +31,7 @@ public interface MongoRepository<T extends Model> extends org.springframework.da
      */
     @Override @NonNull
     default <S extends T> S save(@NonNull S entity) {
-        return updateCollection(entity, entity.getClass().getSimpleName().toLowerCase(), trustedMongoTemplate);
+        return updateCollection(entity, classToCamelCase(entity.getClass().getSimpleName()), trustedMongoTemplate);
     }
 
     /**
@@ -41,7 +41,7 @@ public interface MongoRepository<T extends Model> extends org.springframework.da
      * @return S
      */
     default <S extends T> S saveRemote(S entity) {
-        return updateCollection(entity, entity.getClass().getSimpleName().toLowerCase(), remoteMongoTemplate);
+        return updateCollection(entity, classToCamelCase(entity.getClass().getSimpleName()), remoteMongoTemplate);
     }
 
     /**
@@ -90,7 +90,7 @@ public interface MongoRepository<T extends Model> extends org.springframework.da
      */
     @Override
     default void delete(@NonNull T entity) {
-        deleteRecord(entity, entity.getClass().getSimpleName().toLowerCase(), trustedMongoTemplate);
+        deleteRecord(entity, classToCamelCase(entity.getClass().getSimpleName()), trustedMongoTemplate);
     }
 
     /**
@@ -98,7 +98,7 @@ public interface MongoRepository<T extends Model> extends org.springframework.da
      * @param entity element to delete
      */
     default void deleteRemote(@NonNull T entity) {
-        deleteRecord(entity, entity.getClass().getSimpleName().toLowerCase(), remoteMongoTemplate);
+        deleteRecord(entity, classToCamelCase(entity.getClass().getSimpleName()), remoteMongoTemplate);
     }
 
     /**
@@ -175,6 +175,10 @@ public interface MongoRepository<T extends Model> extends org.springframework.da
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    default String classToCamelCase(String className) {
+        return className.substring(0, 1).toLowerCase() + className.substring(1);
     }
 
     private Query createQuery(T entity) {
