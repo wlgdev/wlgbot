@@ -1,4 +1,4 @@
-package tv.wlg.bot.repository.config;
+package tv.wlg.bot.datastore.repository.config;
 
 import com.mongodb.client.MongoClient;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @EnableMongoRepositories(
-        basePackages = "tv.wlg.bot.repository",
+        basePackages = "tv.wlg.bot.datastore.repository",
         mongoTemplateRef = "trustedMongoTemplate"
 )
 public class TrustedMongoConfig {

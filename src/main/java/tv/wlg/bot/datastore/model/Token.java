@@ -1,10 +1,10 @@
-package tv.wlg.bot.model;
+package tv.wlg.bot.datastore.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import tv.wlg.bot.model.template.Model;
+import tv.wlg.bot.datastore.model.template.Model;
 
 import java.util.HashMap;
 import java.util.Map;

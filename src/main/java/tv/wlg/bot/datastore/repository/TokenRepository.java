@@ -1,10 +1,10 @@
-package tv.wlg.bot.repository;
+package tv.wlg.bot.datastore.repository;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-import tv.wlg.bot.model.Token;
-import tv.wlg.bot.repository.mongo.MongoRepository;
+import tv.wlg.bot.datastore.model.Token;
+import tv.wlg.bot.datastore.repository.mongo.MongoRepository;
 
 import java.util.List;
 

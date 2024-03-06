@@ -1,4 +1,4 @@
-package tv.wlg.bot.repository.config;
+package tv.wlg.bot.datastore.repository.config;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientSettings;

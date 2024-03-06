@@ -1,4 +1,4 @@
-package tv.wlg.bot.repository.mongo;
+package tv.wlg.bot.datastore.repository.mongo;
 
 import com.mongodb.client.result.DeleteResult;
 import org.springframework.data.mongodb.core.FindAndReplaceOptions;
@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tv.wlg.bot.config.ApplicationContextProvider;
-import tv.wlg.bot.model.template.Model;
+import tv.wlg.bot.datastore.model.template.Model;
 
 import java.lang.reflect.Field;
 import java.util.List;

@@ -1,4 +1,4 @@
-package tv.wlg.bot.model.template;
+package tv.wlg.bot.datastore.model.template;
 
 import lombok.Getter;
 import org.bson.types.ObjectId;

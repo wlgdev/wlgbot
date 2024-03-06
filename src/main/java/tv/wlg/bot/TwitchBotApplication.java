@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import tv.wlg.bot.config.ApplicationContextProvider;
-import tv.wlg.bot.model.Token;
-import tv.wlg.bot.repository.TokenRepository;
-import tv.wlg.bot.repository.config.MongoConfig;
+import tv.wlg.bot.datastore.model.Token;
+import tv.wlg.bot.datastore.repository.TokenRepository;
+import tv.wlg.bot.datastore.repository.config.MongoConfig;
 
 import java.util.List;
 
