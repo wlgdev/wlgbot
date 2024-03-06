@@ -12,7 +12,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Document
-public class Token extends Model {
+public class RefreshToken extends Model {
     public  static final String user_id_field = "user_id";
     private static final String scope_field = "scope";
     private static final String refresh_token_field = "refresh_token";
