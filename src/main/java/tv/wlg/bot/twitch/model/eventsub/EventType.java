@@ -1,6 +1,6 @@
-package tv.wlg.bot.twitch.evensub;
+package tv.wlg.bot.twitch.model.eventsub;
 
-public enum Event {
+public enum EventType {
     CHANNEL_CHAT_MESSAGE_RECEIVED() {
         @Override
         public String asEventName() {

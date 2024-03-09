@@ -1,4 +1,4 @@
-package tv.wlg.bot.twitch.model;
+package tv.wlg.bot.twitch.model.eventsub;
 
 import lombok.Getter;
 import lombok.Setter;

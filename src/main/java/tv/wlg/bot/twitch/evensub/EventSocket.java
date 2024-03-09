@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import tv.wlg.bot.twitch.model.EventMessage;
+import tv.wlg.bot.twitch.model.eventsub.EventType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -39,20 +40,18 @@ public class EventSocket {
     @OnMessage
     public void onMessage(String message, Session session) throws JsonProcessingException {
         log.info("NEW MESSAGE(session: {}): {}", session.getId(), message);
-
-        if (!message.contains("session_welcome")) {
-            return;
-        }
         EventMessage eventMessage = objectMapper.readValue(message, EventMessage.class);
-        log.info("EVENT MESSAGE IS: {}", eventMessage);
+        log.info("EVENT MESSAGE IS:         {}", eventMessage);
 
-        new SubscribeRequest().createSubscription(
-                "zud3pwsgj6awf9vr1gqtrbtwim1y8o",
-                "gp762nuuoqcoxypju8c569th9wz7q5",
-                eventMessage.getPayload().getSession().getId(),
-                "42987636",
-                Event.CHANNEL_CHAT_MESSAGE_RECEIVED
-        );
+        if (message.contains("session_welcome")) {
+            new SubscribeRequest().createSubscription(
+                    "zud3pwsgj6awf9vr1gqtrbtwim1y8o",
+                    "gp762nuuoqcoxypju8c569th9wz7q5",
+                    eventMessage.getPayload().getSession().getId(),
+                    "42987636",
+                    EventType.CHANNEL_CHAT_MESSAGE_RECEIVED
+            );
+        }
 
         //for access token (temporary)
         //https://twitchtokengenerator.com/

@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import tv.wlg.bot.twitch.model.eventsub.EventType;
 
 public class SubscribeRequest {
     private static final String SUBSCRIBE_REQUEST_URL = "https://api.twitch.tv/helix/eventsub/subscriptions";
@@ -25,7 +26,7 @@ public class SubscribeRequest {
             }
             """;
 
-    public void createSubscription(String accessToken, String clientId, String sessionId, String userId, Event event) {
+    public void createSubscription(String accessToken, String clientId, String sessionId, String userId, EventType event) {
         String request = String.format(REQUEST_BODY_TEMPLATE, event.asEventName(), userId, "30814134", sessionId);
 
         HttpHeaders headers = new HttpHeaders();
