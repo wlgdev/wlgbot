@@ -1,7 +1,10 @@
 package tv.wlg.bot.datastore.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import tv.wlg.bot.datastore.model.template.Model;
@@ -23,12 +26,8 @@ public class RefreshToken extends Model {
 
     @Override
     public Map<String, String> asKey() {
-        if (this.key == null) {
-            this.key = new HashMap<>() {{
-                put(user_id_field, getUserId());
-            }};
-        }
-
-        return this.key;
+        return new HashMap<>() {{
+            put(user_id_field, getUserId());
+        }};
     }
 }

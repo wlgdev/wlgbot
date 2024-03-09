@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Map;
 
+@Getter
 public abstract class Model {
     @SuppressWarnings("unused")
-    @MongoId @Getter private ObjectId id;
-    protected Map<String, String> key;
+    @MongoId private ObjectId id;
 
     public abstract Map<String, String> asKey();
 }
