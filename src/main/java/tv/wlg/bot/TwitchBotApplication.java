@@ -6,9 +6,10 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import tv.wlg.bot.config.ApplicationContextProvider;
 import tv.wlg.bot.datastore.model.RefreshToken;
-import tv.wlg.bot.datastore.repository.TokenRepository;
+import tv.wlg.bot.datastore.repository.RefreshTokenRepository;
 import tv.wlg.bot.datastore.repository.config.MongoConfig;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -22,9 +23,10 @@ public class TwitchBotApplication {
     @EventListener(ApplicationStartedEvent.class)
     //TODO remove when done with configuration
     public void start() {
-        TokenRepository tokenRepository = ApplicationContextProvider.getContext().getBean(TokenRepository.class);
+        RefreshTokenRepository tokenRepository = ApplicationContextProvider.getContext().getBean(RefreshTokenRepository.class);
 
-        for (int i = 2; i < 10; i++) {
+        LocalDateTime now = LocalDateTime.now();
+        for (int i = 2; i < 3; i++) {
             String userId = i + "";
             RefreshToken token = new RefreshToken();
             token.setUserId(userId);
@@ -33,6 +35,7 @@ public class TwitchBotApplication {
 
             tokenRepository.save(token);
         }
+        System.out.println(LocalDateTime.now() + " == " + now);
 
         String userId = "1";
         RefreshToken token = new RefreshToken();

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tv.wlg.bot</groupId>
-    <artifactId>twitch-bot</artifactId>
+    <artifactId>bot-twitch</artifactId>
     <version>0.1-SNAPSHOT</version>
 
     <name>twitch-bot</name>
@@ -37,6 +37,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
 
         <!-- DATASTORE DEPENDENCIES -->
         <dependency>
@@ -44,11 +48,13 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
-        <!-- -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+        <!-- APPLICATION DEPENDENCIES-->
+        <dependency> <!-- WebSocket to get Twitch Events -->
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-client</artifactId>
+            <version>2.1.5</version>
         </dependency>
+
 
         <!-- TEST DEPENDENCIES -->
         <dependency>

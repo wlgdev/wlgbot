@@ -9,7 +9,7 @@ import tv.wlg.bot.datastore.repository.mongo.MongoRepository;
 import java.util.List;
 
 @Repository
-public interface TokenRepository extends MongoRepository<RefreshToken> {
+public interface RefreshTokenRepository extends MongoRepository<RefreshToken> {
     @Query("{ 'user_id' : ?0 }")
     List<RefreshToken> findTokensByUserId(String userId);
 
