@@ -23,8 +23,12 @@ public class RefreshToken extends Model {
 
     @Override
     public Map<String, String> asKey() {
-        return new HashMap<>() {{
-            put(user_id_field, getUserId());
-        }};
+        if (this.key == null) {
+            this.key = new HashMap<>() {{
+                put(user_id_field, getUserId());
+            }};
+        }
+
+        return this.key;
     }
 }
