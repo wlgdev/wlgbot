@@ -25,6 +25,7 @@ public class EventSocket {
     private Session session;
     private AccessToken accessToken;
     private RefreshToken refreshToken;
+    private final MessageHandler messageHandler = new MessageHandler();
 
     public static EventSocket createSocket(RefreshToken refreshToken) {
         try {
@@ -67,6 +68,7 @@ public class EventSocket {
         String subsciptionType = eventMessage.getMetadata().getSubscription_type();
         if (subsciptionType != null && subsciptionType.equalsIgnoreCase("channel.chat.message")) {
             log.info("CHAT MESSAGE IS:  {}:  {}", eventMessage.getPayload().getEvent().getChatter_user_login(), eventMessage.getPayload().getEvent().getMessage().getText());
+            messageHandler.handleMessage(eventMessage.getPayload().getEvent().getChatter_user_login(), eventMessage.getPayload().getEvent().getMessage().getText(), refreshToken, accessToken);
         }
     }
 
