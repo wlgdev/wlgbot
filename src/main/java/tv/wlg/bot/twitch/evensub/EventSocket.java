@@ -5,16 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.websocket.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import tv.wlg.bot.datastore.model.RefreshToken;
+import tv.wlg.bot.twitch.model.AccessToken;
 import tv.wlg.bot.twitch.model.EventMessage;
 import tv.wlg.bot.twitch.model.eventsub.EventType;
+import tv.wlg.bot.twitch.token.RefreshTokenRequest;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 @ClientEndpoint
-@Controller
 public class EventSocket {
     private static final Logger log = LoggerFactory.getLogger(EventSocket.class);
 
@@ -22,16 +23,21 @@ public class EventSocket {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Session session;
+    private AccessToken accessToken;
+    private RefreshToken refreshToken;
 
-    public static EventSocket createSocket() {
+    public static EventSocket createSocket(RefreshToken refreshToken) {
         try {
-            return new EventSocket();
+            return new EventSocket(refreshToken);
         } catch (URISyntaxException | DeploymentException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public EventSocket() throws URISyntaxException, DeploymentException, IOException {
+    public EventSocket(RefreshToken refreshToken) throws URISyntaxException, DeploymentException, IOException {
+        this.refreshToken = refreshToken;
+        this.accessToken = new RefreshTokenRequest().refreshAccessToken(refreshToken.getRefreshToken());
+
         WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
         session = webSocketContainer.connectToServer(this, new URI(TWITCH_EVENTSUB_URL));
         System.out.println("connected: " + session.getId());
@@ -39,22 +45,29 @@ public class EventSocket {
 
     @OnMessage
     public void onMessage(String message, Session session) throws JsonProcessingException {
-        log.info("NEW MESSAGE(session: {}): {}", session.getId(), message);
+        log.debug("NEW MESSAGE(session: {}): {}", session.getId(), message);
         EventMessage eventMessage = objectMapper.readValue(message, EventMessage.class);
-        log.info("EVENT MESSAGE IS:         {}", eventMessage);
 
-        if (message.contains("session_welcome")) {
+        if (eventMessage.getMetadata().getMessage_type().equalsIgnoreCase("session_welcome")) {
+            log.debug("SUBSCRIBE TO CHAT MESSAGES");
             new SubscribeRequest().createSubscription(
-                    "zud3pwsgj6awf9vr1gqtrbtwim1y8o",
-                    "gp762nuuoqcoxypju8c569th9wz7q5",
+                    accessToken.getAccess_token(),
+                    "3toh7ur3q0vlzbqtovdgg4zfnc6kp3",
                     eventMessage.getPayload().getSession().getId(),
-                    "42987636",
+                    refreshToken.getUserId(),
                     EventType.CHANNEL_CHAT_MESSAGE_RECEIVED
             );
+            return;
+        }
+        if (eventMessage.getMetadata().getMessage_type().equalsIgnoreCase("session_keepalive")) {
+            log.debug("KEEP ALIVE CHECK: {}", eventMessage.getMetadata().getMessage_timestamp());
+            return;
         }
 
-        //for access token (temporary)
-        //https://twitchtokengenerator.com/
+        String subsciptionType = eventMessage.getMetadata().getSubscription_type();
+        if (subsciptionType != null && subsciptionType.equalsIgnoreCase("channel.chat.message")) {
+            log.info("CHAT MESSAGE IS:  {}:  {}", eventMessage.getPayload().getEvent().getChatter_user_login(), eventMessage.getPayload().getEvent().getMessage().getText());
+        }
     }
 
     @OnMessage

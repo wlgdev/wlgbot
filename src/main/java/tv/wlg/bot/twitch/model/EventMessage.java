@@ -8,6 +8,5 @@ import tv.wlg.bot.twitch.model.eventsub.Payload;
 @Getter
 @Setter
 public class EventMessage extends GenericEventMessage{
-
     private Payload payload;
 }

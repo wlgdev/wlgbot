@@ -72,18 +72,18 @@ WHISPER     : user:manage:whispers           :  send whisper message to user
 ========================================================================================================================
 EXAMPLE OF AUTH URLS:                                                                          =========================
 ========================================================================================================================
+bot - mod + editor
+https://id.twitch.tv/oauth2/authorize?client_id=3toh7ur3q0vlzbqtovdgg4zfnc6kp3&redirect_uri=http://localhost:15610/auth&scope=user:read:email+user:read:follows+user:read:subscriptions+chat:read+chat:edit+user:read:chat+user:write:chat+clips:edit+whispers:read+whispers:edit+user:manage:whispers+channel:moderate+moderator:read:followers+moderator:read:chatters+moderator:manage:chat_settings+moderator:manage:announcements+moderator:manage:shoutouts+moderator:manage:guest_star+moderator:manage:automod+moderator:read:automod_settings+moderator:manage:automod_settings+moderator:manage:banned_users+moderator:manage:blocked_terms+moderator:manage:chat_messages+moderator:manage:shield_mode+channel:manage:polls+channel:manage:predictions+channel:manage:broadcast&response_type=code&state=dummy&force_verify=true
 
-bot(mod + editor): https://id.twitch.tv/oauth2/authorize?client_id=12345&redirect_uri=http%3A%2F%2Flocalhost%3A8013%2F&scope=
-chat%3Aread+
-chat%3Aedit+
-whispers%3Aread+
-whispers%3Aedit+
-channel%3Amoderate+
-moderator%3Amanage%3Aannouncements+
-user%3Amanage%3Awhispers+
-moderator%3Amanage%3Achat_messages+
-moderator%3Amanage%3Abanned_users
-&response_type=code&state=RRsdfZWmTVePbEYYihT6dx0-adnOt1-rPjZs&force_verify=true&access_type=offline
+https://id.twitch.tv/oauth2/authorize
+?client_id=3toh7ur3q0vlzbqtovdgg4zfnc6kp3
+&redirect_uri=http%3A%2F%2Flocalhost%3A15610%2F
+&scope=user:read:email+user:read:follows+user:read:subscriptions+chat:read+chat:edit+user:read:chat+user:write:chat+clips:edit+whispers:read+whispers:edit+user:manage:whispers+channel:moderate+moderator:read:followers+moderator:read:chatters+moderator:manage:chat_settings+moderator:manage:announcements+moderator:manage:shoutouts+moderator:manage:guest_star+moderator:manage:automod+moderator:read:automod_settings+moderator:manage:automod_settings+moderator:manage:banned_users+moderator:manage:blocked_terms+moderator:manage:chat_messages+moderator:manage:shield_mode+channel:manage:polls+channel:manage:predictions+channel:manage:broadcast
+&response_type=code
+&state=dummy
+&force_verify=true
+
+
 
 broadcaster: https://id.twitch.tv/oauth2/authorize?client_id=12345&redirect_uri=http%3A%2F%2Flocalhost%3A8013%2F&scope=
 user%3Aread%3Aemail+

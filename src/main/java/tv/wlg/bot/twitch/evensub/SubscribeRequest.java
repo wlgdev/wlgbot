@@ -37,6 +37,5 @@ public class SubscribeRequest {
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.postForEntity(SUBSCRIBE_REQUEST_URL, requestEntity, String.class);
-        System.out.println("response: " + response);
     }
 }
