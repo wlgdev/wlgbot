@@ -4,6 +4,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
+import tv.wlg.bot.config.Constants;
 import tv.wlg.bot.twitch.model.UserListDetails;
 
 public class UserDetailsRequest {
@@ -14,7 +15,7 @@ public class UserDetailsRequest {
         HttpHeaders headers = new HttpHeaders();
 
         headers.set("Authorization", "Bearer " + accessToken);
-        headers.set("Client-Id", "3toh7ur3q0vlzbqtovdgg4zfnc6kp3");
+        headers.set("Client-Id", Constants.clientId);
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 

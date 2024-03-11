@@ -28,3 +28,9 @@ mongodb:
     authenticationDatabase: ${MONGODB_AUTH_DATABASE}
     username: remote_user
     password: remote_user_secret_super_password
+
+app:
+  client:
+    id: 3toh7ur3q0vlzbqtovdgg4zfnc6kp3
+    secret: 1j21360uuw0je8cgmxg79ex93y8l1g
+    redirect: http://localhost:15610/auth

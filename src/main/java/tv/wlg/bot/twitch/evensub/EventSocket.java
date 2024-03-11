@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.websocket.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tv.wlg.bot.config.Constants;
 import tv.wlg.bot.datastore.model.RefreshToken;
 import tv.wlg.bot.twitch.model.AccessToken;
 import tv.wlg.bot.twitch.model.EventMessage;
@@ -14,6 +15,8 @@ import tv.wlg.bot.twitch.token.RefreshTokenRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @ClientEndpoint
 public class EventSocket {
@@ -26,6 +29,8 @@ public class EventSocket {
     private AccessToken accessToken;
     private RefreshToken refreshToken;
     private final MessageHandler messageHandler = new MessageHandler();
+
+    private List<String> partialMessages = new ArrayList<>();
 
     public static EventSocket createSocket(RefreshToken refreshToken) {
         try {
@@ -45,31 +50,48 @@ public class EventSocket {
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) throws JsonProcessingException {
-        log.debug("NEW MESSAGE(session: {}): {}", session.getId(), message);
-        EventMessage eventMessage = objectMapper.readValue(message, EventMessage.class);
+    public void onPartialMessage(String partialMessage, boolean last, Session session) throws JsonProcessingException {
+        if (last) {
+            partialMessages.add(partialMessage);
+            String message = String.join("", partialMessages);
 
-        if (eventMessage.getMetadata().getMessage_type().equalsIgnoreCase("session_welcome")) {
-            log.debug("SUBSCRIBE TO CHAT MESSAGES");
-            new SubscribeRequest().createSubscription(
-                    accessToken.getAccess_token(),
-                    "3toh7ur3q0vlzbqtovdgg4zfnc6kp3",
-                    eventMessage.getPayload().getSession().getId(),
-                    refreshToken.getUserId(),
-                    EventType.CHANNEL_CHAT_MESSAGE_RECEIVED
-            );
+            EventMessage eventMessage = objectMapper.readValue(message, EventMessage.class);
+            if (eventMessage.getMetadata().getMessage_type().equalsIgnoreCase("session_welcome")) {
+                log.debug("SUBSCRIBE TO CHAT MESSAGES");
+                new SubscribeRequest().createSubscription(
+                        accessToken.getAccess_token(),
+                        Constants.clientId,
+                        eventMessage.getPayload().getSession().getId(),
+                        refreshToken.getUserId(),
+                        EventType.CHANNEL_CHAT_MESSAGE_RECEIVED
+                );
+
+                partialMessages.clear();
+                return;
+            }
+            if (eventMessage.getMetadata().getMessage_type().equalsIgnoreCase("session_keepalive")) {
+                log.debug("KEEP ALIVE CHECK: {}", eventMessage.getMetadata().getMessage_timestamp());
+
+                partialMessages.clear();
+                return;
+            }
+
+            String subsciptionType = eventMessage.getMetadata().getSubscription_type();
+            if (subsciptionType != null && subsciptionType.equalsIgnoreCase("channel.chat.message")) {
+                messageHandler.handleMessage(eventMessage.getPayload().getEvent().getChatter_user_login(), eventMessage.getPayload().getEvent().getMessage().getText(), refreshToken, accessToken);
+                log.info("CHAT:({},{})  {}:  {}",
+                        messageHandler.getSize(),
+                        messageHandler.isOnCooldown(),
+                        eventMessage.getPayload().getEvent().getChatter_user_login(),
+                        eventMessage.getPayload().getEvent().getMessage().getText()
+                );
+            }
+
+            partialMessages.clear();
             return;
         }
-        if (eventMessage.getMetadata().getMessage_type().equalsIgnoreCase("session_keepalive")) {
-            log.debug("KEEP ALIVE CHECK: {}", eventMessage.getMetadata().getMessage_timestamp());
-            return;
-        }
 
-        String subsciptionType = eventMessage.getMetadata().getSubscription_type();
-        if (subsciptionType != null && subsciptionType.equalsIgnoreCase("channel.chat.message")) {
-            log.info("CHAT MESSAGE IS:  {}:  {}", eventMessage.getPayload().getEvent().getChatter_user_login(), eventMessage.getPayload().getEvent().getMessage().getText());
-            messageHandler.handleMessage(eventMessage.getPayload().getEvent().getChatter_user_login(), eventMessage.getPayload().getEvent().getMessage().getText(), refreshToken, accessToken);
-        }
+        partialMessages.add(partialMessage);
     }
 
     @OnMessage
@@ -79,6 +101,8 @@ public class EventSocket {
 
     @OnOpen
     public void onOpen(Session session) {
+        session.setMaxTextMessageBufferSize(64 * 1024); //64 Kb
+        session.setMaxBinaryMessageBufferSize(64 * 1024); //64 Kb
         log.info("SESSION OPENED: {}", session.getId());
     }
 

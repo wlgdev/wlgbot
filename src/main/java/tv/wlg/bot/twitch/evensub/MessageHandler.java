@@ -31,6 +31,7 @@ public class MessageHandler {
     private final int numberOfMessages = 8;
     private final int timeLimit = 5 * 1000; // $numberOfMessages in 5sec = create marker
     private final int cooldown = 60 * 1000; // 1 marker per 60 seconds
+    private boolean isOnCooldown = false;
 
     private long lastTriggerExexecudedAt = System.currentTimeMillis() - cooldown; //last trigger time
     private List<Long> messagesList = new ArrayList<>();
@@ -41,15 +42,16 @@ public class MessageHandler {
         if (userName.equalsIgnoreCase("hlebu6ek") || userName.equalsIgnoreCase("foxlex")) {
             if (messageText.equalsIgnoreCase("!marker")) {
                 createMarker(refreshToken, accessToken);
+                return;
             }
-
-            return;
         }
 
         long now = System.currentTimeMillis();
         if ((now - lastTriggerExexecudedAt) < cooldown) {
+            isOnCooldown = true;
             return;
         }
+        isOnCooldown = false;
 
         boolean isTrigger = true;
         for (String word : messageText.toLowerCase().split(" ")) {
@@ -87,5 +89,13 @@ public class MessageHandler {
     private void createMarker(RefreshToken refreshToken, AccessToken accessToken) {
         createMarkerRequest.createMarker(refreshToken, accessToken);
         System.out.println("CREATE MARKER");
+    }
+
+    public int getSize() {
+        return messagesList.size();
+    }
+
+    public boolean isOnCooldown() {
+        return isOnCooldown;
     }
 }
