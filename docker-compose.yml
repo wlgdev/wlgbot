@@ -1,7 +1,7 @@
 # DEFAULT DOCKER-COMPOSE UP COMMAND in LINUX (to pickup PROD variables)
 # LINUX   - BASH         ###   RUNTIME_ENV=prod bash -c 'docker-compose up -d --build'
-# WINDOWS - CMD          ###   SET RUNTIME_ENV=prod && docker compose up -d --build
-# WINDOWS - PowerShell   ###   $env:RUNTIME_ENV=prod; docker compose up -d --build
+# WINDOWS - PowerShell   ###   $env:RUNTIME_ENV="prod"; docker compose up -d --build
+# WINDOWS - CMD          ###   SET RUNTIME_ENV=prod&& docker compose up -d --build
 
 # DEFAULT DOCKER-COMPOSE UP COMMAND in LINUX (to pickup LOCAL variables)
 # docker-compose up -d
