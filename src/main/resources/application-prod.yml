@@ -12,17 +12,17 @@ MONGODB_AUTH_DATABASE: ${PROD_MONGODB_AUTH_DATABASE}
 
 mongodb:
   trusted:
-    host: ${MONGODB_HOST_NAME}
-    port: ${MONGODB_PORT_NUMBER}
+    host: ${PROD_MONGODB_HOST_MAME}
+    port: ${PROD_MONGODB_PORT_NUMBER}
     database: ${PROD_MONGODB_TRUSTED_DATABASE}
-    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
+    authenticationDatabase: ${PROD_MONGODB_AUTH_DATABASE}
     username: ${PROD_MONGODB_TRUSTED_USERNAME}
     password: ${PROD_MONGODB_TRUSTED_PASSWORD}
   remote:
-    host: ${MONGODB_HOST_NAME}
-    port: ${MONGODB_PORT_NUMBER}
+    host: ${PROD_MONGODB_HOST_MAME}
+    port: ${PROD_MONGODB_PORT_NUMBER}
     database: ${PROD_MONGODB_REMOTE_DATABASE}
-    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
+    authenticationDatabase: ${PROD_MONGODB_AUTH_DATABASE}
     username: ${PROD_MONGODB_REMOTE_USERNAME}
     password: ${PROD_MONGODB_REMOTE_PASSWORD}
 

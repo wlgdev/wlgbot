@@ -15,16 +15,16 @@ mongodb:
     host: ${MONGODB_HOST_NAME}
     port: ${MONGODB_PORT_NUMBER}
     database: trusted
-    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
     username: trusted_user
     password: trusted_user_secret_super_password
+    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
   remote:
     host: ${MONGODB_HOST_NAME}
     port: ${MONGODB_PORT_NUMBER}
     database: remote
-    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
     username: remote_user
     password: remote_user_secret_super_password
+    authenticationDatabase: ${MONGODB_AUTH_DATABASE}
 
 app:
   client:
