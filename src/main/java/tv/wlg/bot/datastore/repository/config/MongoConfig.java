@@ -47,6 +47,8 @@ public class MongoConfig {
             throw new RuntimeException("cannot initialize: property file not found: " + propertiesFile);
         }
 
+        System.out.print("SET MONGO PROPERTIES FROM: " + propertiesFile);
+        System.out.println(" : " + properties);
         MongoProperties mongoProperties = new MongoProperties();
         mongoProperties.setDatabase(properties.getProperty("MONGODB_AUTH_DATABASE"));
         mongoProperties.setHost(properties.getProperty("MONGODB_HOST_NAME"));
