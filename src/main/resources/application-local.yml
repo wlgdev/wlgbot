@@ -1,6 +1,3 @@
-server:
-  port: 15610
-
 #MONGODB SERVER CONFIGURATIONS (for docker-compose.yml)
 ALLOW_EMPTY_PASSWORD: no
 MONGODB_PORT_NUMBER: 27015

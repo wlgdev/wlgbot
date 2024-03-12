@@ -14,8 +14,8 @@ services:
     ports:
       - 27015:27015
     restart: unless-stopped
-#    env_file:
-#      - ./asd
+    env_file:
+      - ./src/main/resources/application-${RUNTIME_ENV:-local}.yml
     volumes:
       - mongodb:/bitnami/mongodb/:rw
     networks:
@@ -39,7 +39,7 @@ services:
 volumes:
   mongodb:
     driver: local
-    name: wlgbot_db_mongo
+    name: wlgbot_datastore_mongo
 
 networks:
   back:
