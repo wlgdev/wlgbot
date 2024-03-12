@@ -41,7 +41,7 @@ public class MongoConfig {
         String runtimeEnvironmentProperty = System.getenv("RUNTIME_ENV");
 
         String runtimeEnv = "local";
-        if ((runtimeEnvironmentProperty != null && runtimeSystemProperty.equalsIgnoreCase("prod")) ||
+        if ((runtimeSystemProperty != null && runtimeSystemProperty.equalsIgnoreCase("prod")) ||
                 (runtimeEnvironmentProperty != null && runtimeEnvironmentProperty.equalsIgnoreCase("prod"))) {
             runtimeEnv = "prod";
         }
