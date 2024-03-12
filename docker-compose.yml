@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
       args:
         module: bot-twitch
-    image: wlgbot/bot-twitch
+#    image: wlgbot/bot-twitch
     ports:
       - 15610:15610
     restart: unless-stopped
