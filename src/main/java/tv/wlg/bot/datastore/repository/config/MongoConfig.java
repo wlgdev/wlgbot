@@ -47,14 +47,12 @@ public class MongoConfig {
         }
 
         System.out.println("SET MONGO PROPERTIES FROM: " + propertiesFile);
-        String database = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "default");
+        String database = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "authDb");
         String hostname = resolveValue(properties.getProperty("MONGODB_HOST_NAME"), "localhost");
         int mongoPort = Integer.parseInt(resolveValue(properties.getProperty("MONGODB_PORT_NUMBER"), "27015"));
-        String rootUser = resolveValue(properties.getProperty("MONGODB_ROOT_USER"), "rootuser");
+        String rootUser = resolveValue(properties.getProperty("MONGODB_ROOT_USER"), "rootUser");
         char[] rootPassword = resolveValue(properties.getProperty("MONGODB_ROOT_PASSWORD"), "some_pwd").toCharArray();
-        String authDB = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "authdb");
-
-        System.out.println(database + "\n" + hostname + "\n" + mongoPort + "\n" + rootUser + "\n" + String.valueOf(rootPassword) + "\n" + authDB);
+        String authDB = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "authDb");
 
         MongoProperties mongoProperties = new MongoProperties();
         mongoProperties.setDatabase(database);

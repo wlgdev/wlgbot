@@ -14,15 +14,8 @@ services:
     ports:
       - 27015:27015
     restart: unless-stopped
-#    env_file:
-#      - ./src/main/resources/application-${RUNTIME_ENV:-local}.yml
-    environment:
-      - ALLOW_EMPTY_PASSWORD=no
-      - MONGODB_PORT_NUMBER=${PROD_MONGODB_PORT_NUMBER}
-      - MONGODB_ENABLE_JOURNAL=false
-      - MONGODB_ENABLE_DIRECTORY_PER_DB=yes
-      - MONGODB_ROOT_USER=${PROD_MONGODB_ROOT_USER}
-      - MONGODB_ROOT_PASSWORD=${PROD_MONGODB_ROOT_PASSWORD}
+    env_file:
+      - ./src/main/resources/application-${RUNTIME_ENV:-local}.yml
     volumes:
       - mongodb:/bitnami/mongodb/:rw
     networks:
@@ -34,7 +27,7 @@ services:
       dockerfile: Dockerfile
       args:
         module: bot-twitch
-#    image: wlgbot/bot-twitch
+    image: wlgbot/bot-twitch
     ports:
       - 15610:15610
     restart: unless-stopped
