@@ -37,15 +37,7 @@ public class MongoConfig {
     }
 
     public static void configureMongoDB() {
-        String runtimeSystemProperty = System.getProperty("RUNTIME_ENV");
-        String runtimeEnvironmentProperty = System.getenv("RUNTIME_ENV");
-
-        String runtimeEnv = "local";
-        if ((runtimeSystemProperty != null && runtimeSystemProperty.equalsIgnoreCase("prod")) ||
-                (runtimeEnvironmentProperty != null && runtimeEnvironmentProperty.equalsIgnoreCase("prod"))) {
-            runtimeEnv = "prod";
-        }
-        String propertiesFile = "application-" + runtimeEnv + ".yml";
+        String propertiesFile = "application-" + parseProperty("RUNTIME_ENV", "local") + ".yml";
 
         YamlPropertiesFactoryBean factoryBean = new YamlPropertiesFactoryBean();
         factoryBean.setResources(new ClassPathResource(propertiesFile));
@@ -55,13 +47,22 @@ public class MongoConfig {
         }
 
         System.out.println("SET MONGO PROPERTIES FROM: " + propertiesFile);
+        String database = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "default");
+        String hostname = resolveValue(properties.getProperty("MONGODB_HOST_NAME"), "localhost");
+        int mongoPort = Integer.parseInt(resolveValue(properties.getProperty("MONGODB_PORT_NUMBER"), "27015"));
+        String rootUser = resolveValue(properties.getProperty("MONGODB_ROOT_USER"), "rootuser");
+        char[] rootPassword = resolveValue(properties.getProperty("MONGODB_ROOT_PASSWORD"), "some_pwd").toCharArray();
+        String authDB = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "authdb");
+
+        System.out.println(database + "\n" + hostname + "\n" + mongoPort + "\n" + rootUser + "\n" + String.valueOf(rootPassword) + "\n" + authDB);
+
         MongoProperties mongoProperties = new MongoProperties();
-        mongoProperties.setDatabase(properties.getProperty("MONGODB_AUTH_DATABASE"));
-        mongoProperties.setHost(properties.getProperty("MONGODB_HOST_NAME"));
-        mongoProperties.setPort(Integer.parseInt(properties.getProperty("MONGODB_PORT_NUMBER")));
-        mongoProperties.setUsername(properties.getProperty("MONGODB_ROOT_USER"));
-        mongoProperties.setPassword(properties.getProperty("MONGODB_ROOT_PASSWORD").toCharArray());
-        mongoProperties.setAuthenticationDatabase(properties.getProperty("MONGODB_AUTH_DATABASE"));
+        mongoProperties.setDatabase(database);
+        mongoProperties.setHost(hostname);
+        mongoProperties.setPort(mongoPort);
+        mongoProperties.setUsername(rootUser);
+        mongoProperties.setPassword(rootPassword);
+        mongoProperties.setAuthenticationDatabase(authDB);
 
         BasicDBObject getTrustedUser = new BasicDBObject(
                 "usersInfo",
@@ -116,5 +117,39 @@ public class MongoConfig {
                         ).append("db", database)));
 
         db.runCommand(createUser);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static String parseProperty(String propertyName, String defaultValue) {
+        String systemProperty = System.getProperty(propertyName);
+        String environmentProperty = System.getenv(propertyName);
+
+        String result;
+        if (systemProperty != null) {
+            result = systemProperty;
+        } else if (environmentProperty != null) {
+            result = environmentProperty;
+        } else {
+            return defaultValue;
+        }
+
+        return resolveValue(result, defaultValue);
+    }
+
+    private static String resolveValue(String property, String defaultValue) {
+        if (property.startsWith("${")) {
+            String systemValue = System.getProperty(property.substring(2, property.length() - 1));
+            String envValue = System.getenv(property.substring(2, property.length() - 1));
+
+            if (systemValue != null) {
+                return systemValue;
+            } else if (envValue != null) {
+                return envValue;
+            } else {
+                return defaultValue;
+            }
+        }
+
+        return property;
     }
 }
