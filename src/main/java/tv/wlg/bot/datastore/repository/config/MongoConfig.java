@@ -37,7 +37,14 @@ public class MongoConfig {
     }
 
     public static void configureMongoDB() {
-        String runtimeEnv = System.getProperty("RUNTIME_ENV", "local");
+        String runtimeSystemProperty = System.getProperty("RUNTIME_ENV");
+        String runtimeEnvironmentProperty = System.getenv("RUNTIME_ENV");
+
+        String runtimeEnv = "local";
+        if ((runtimeEnvironmentProperty != null && runtimeSystemProperty.equalsIgnoreCase("prod")) ||
+                (runtimeEnvironmentProperty != null && runtimeEnvironmentProperty.equalsIgnoreCase("prod"))) {
+            runtimeEnv = "prod";
+        }
         String propertiesFile = "application-" + runtimeEnv + ".yml";
 
         YamlPropertiesFactoryBean factoryBean = new YamlPropertiesFactoryBean();
@@ -47,8 +54,7 @@ public class MongoConfig {
             throw new RuntimeException("cannot initialize: property file not found: " + propertiesFile);
         }
 
-        System.out.print("SET MONGO PROPERTIES FROM: " + propertiesFile);
-        System.out.println(" : " + properties);
+        System.out.println("SET MONGO PROPERTIES FROM: " + propertiesFile);
         MongoProperties mongoProperties = new MongoProperties();
         mongoProperties.setDatabase(properties.getProperty("MONGODB_AUTH_DATABASE"));
         mongoProperties.setHost(properties.getProperty("MONGODB_HOST_NAME"));
