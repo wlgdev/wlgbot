@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,6 +18,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         basePackages = "tv.wlg.bot.datastore.repository",
         mongoTemplateRef = "trustedMongoTemplate"
 )
+@DependsOn("applicationContextProvider")
 public class TrustedMongoConfig {
     @Primary
     @Bean(name = "trustedMongoProperties")
