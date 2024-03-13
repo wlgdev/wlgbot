@@ -46,13 +46,14 @@ public class MongoConfig {
             throw new RuntimeException("cannot initialize: property file not found: " + propertiesFile);
         }
 
-        System.out.println("SET MONGO PROPERTIES FROM: " + propertiesFile);
+        System.out.println("SET PROPERTIES FROM: " + propertiesFile);
         String database = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "authDb");
         String hostname = resolveValue(properties.getProperty("MONGODB_HOST_NAME"), "localhost");
         int mongoPort = Integer.parseInt(resolveValue(properties.getProperty("MONGODB_PORT_NUMBER"), "27015"));
         String rootUser = resolveValue(properties.getProperty("MONGODB_ROOT_USER"), "rootUser");
         char[] rootPassword = resolveValue(properties.getProperty("MONGODB_ROOT_PASSWORD"), "some_pwd").toCharArray();
         String authDB = resolveValue(properties.getProperty("MONGODB_AUTH_DATABASE"), "authDb");
+        System.out.println("DEBUG MONGO DB: " + database + " - " + hostname + ":" + mongoPort + " - " + rootUser + " = " + authDB);
 
         MongoProperties mongoProperties = new MongoProperties();
         mongoProperties.setDatabase(database);
@@ -62,11 +63,21 @@ public class MongoConfig {
         mongoProperties.setPassword(rootPassword);
         mongoProperties.setAuthenticationDatabase(authDB);
 
+        String trustedUserName = resolveValue(properties.getProperty("mongodb.trusted.username"), "trusted_username");
+        String trustedUserPassword = resolveValue(properties.getProperty("mongodb.trusted.password"), "trusted_password");
+        String trustedDatabase = resolveValue(properties.getProperty("mongodb.trusted.database"), "trusted_db");
+        System.out.println("DEBUG TRUSTED USER: " + trustedUserName + ":" + trustedDatabase);
+
+        String remoteUserName = resolveValue(properties.getProperty("mongodb.remote.username"), "remote_username");
+        String remoteUserPassword = resolveValue(properties.getProperty("mongodb.remote.password"), "remote_password");
+        String remoteDatabase = resolveValue(properties.getProperty("mongodb.remote.database"), "remote_db");
+        System.out.println("DEBUG REMOTE  USER: " + remoteUserName + ":" + remoteDatabase);
+
         BasicDBObject getTrustedUser = new BasicDBObject(
                 "usersInfo",
                 new BasicDBObject(
                         "user",
-                        properties.getProperty("mongodb.trusted.username")
+                        trustedUserName
                 ).append(
                         "db",
                         "admin"
@@ -76,7 +87,7 @@ public class MongoConfig {
                 "usersInfo",
                 new BasicDBObject(
                         "user",
-                        properties.getProperty("mongodb.remote.username")
+                        remoteUserName
                 ).append(
                         "db",
                         "admin"
@@ -89,10 +100,10 @@ public class MongoConfig {
             var trustedUser = db.runCommand(getTrustedUser).get("users", List.class);
             var remoteUser = db.runCommand(getRemoteUser).get("users", List.class);
             if (trustedUser.isEmpty()) {
-                createDBUser(db, properties.getProperty("mongodb.trusted.username"), properties.getProperty("mongodb.trusted.password"), properties.getProperty("mongodb.trusted.database"));
+                createDBUser(db, trustedUserName, trustedUserPassword, trustedDatabase);
             }
             if (remoteUser.isEmpty()) {
-                createDBUser(db, properties.getProperty("mongodb.remote.username"), properties.getProperty("mongodb.remote.password"), properties.getProperty("mongodb.remote.database"));
+                createDBUser(db, remoteUserName, remoteUserPassword, remoteDatabase);
             }
         } catch (Exception ignore) {}
     }

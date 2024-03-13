@@ -37,7 +37,8 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Moscow
-      - SPRING_PROFILE_ACTIVE=${RUNTIME_ENV:-local}
+      - RUNTIME_ENV=${RUNTIME_ENV:-local}
+      - SPRING_PROFILES_ACTIVE=${RUNTIME_ENV:-local}
     networks:
       back:
 
