@@ -1,0 +1,49 @@
+services:
+  mongodb:
+    image: bitnami/mongodb:7.0.3
+    ports:
+      - 27015:27015
+    restart: unless-stopped
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - MONGODB_PORT_NUMBER=${PROD_MONGODB_PORT_NUMBER}
+      - MONGODB_ENABLE_JOURNAL=false
+      - MONGODB_ENABLE_DIRECTORY_PER_DB=yes
+      - MONGODB_ROOT_USER=${PROD_MONGODB_ROOT_USER}
+      - MONGODB_ROOT_PASSWORD=${PROD_MONGODB_ROOT_PASSWORD}
+    volumes:
+      - mongodb:/bitnami/mongodb/:rw
+    networks:
+      back:
+
+  bot-twitch:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        module: bot-twitch
+    depends_on:
+      - mongodb
+    ports:
+      - 15610:15610
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Moscow
+      - RUNTIME_ENV=${RUNTIME_ENV:-local}
+      - SPRING_PROFILES_ACTIVE=${RUNTIME_ENV:-local}
+    networks:
+      back:
+
+volumes:
+  mongodb:
+    driver: local
+    name: wlgbot_datastore_mongo
+
+networks:
+  back:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.16.230.0/24
+          gateway: 173.16.230.1
