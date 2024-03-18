@@ -13,7 +13,7 @@
 
     <profiles>
         <profile>
-            <id>DEFAULT</id>
+            <id>bot-twitch</id>
             <modules>
                 <module>bot-twitch</module>
             </modules>
@@ -23,29 +23,24 @@
                 </os>
             </activation>
         </profile>
-
         <profile>
-            <id>DOCKER_BUILD_bot-twitch</id>
+            <id>bot-dependencies</id>
             <modules>
-                <!-- TARGET MODULE TO BUILD -->
-                <module>bot-twitch</module>
-
-                <!-- DEPENDENCY MODULES FOR bot-twitch -->
                 <module>logging</module>
             </modules>
             <activation>
                 <os>
-                    <family>LINUX</family>
+                    <family>WINDOWS</family>
                 </os>
             </activation>
         </profile>
     </profiles>
 
     <properties>
-        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>21</java.version>
 
         <spring.boot.version>3.2.3</spring.boot.version>
     </properties>

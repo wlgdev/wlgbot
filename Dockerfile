@@ -3,7 +3,8 @@ FROM openjdk:21-jdk-slim AS BUILD
 ###  ============     DEFINE MODULE TO BUILD     ============  ###
 ARG module
 RUN test -n "${module}"
-ARG profile=DOCKER_BUILD_${module}
+ARG dependencies=bot-dependencies
+ARG profiles="-P ${module},${dependencies}"
 
 ###  ============   PREPARE SOURCES TO COMPILE   ============  ###
 WORKDIR app
@@ -15,8 +16,8 @@ COPY logging ./logging
 
 ###  ============      EXECUTE  COMPILATION      ============  ###
 RUN chmod +x ./mvnw
-RUN ./mvnw dependency:go-offline
-RUN ./mvnw -P ${profile} -am clean install -DskipTests=true
+RUN ./mvnw ${profiles} dependency:go-offline
+RUN ./mvnw ${profiles} -am clean install -DskipTests=true
 RUN cp ./${module}/target/*.jar ./app.jar
 
 FROM openjdk:21-jdk-slim AS RUN

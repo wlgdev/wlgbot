@@ -73,7 +73,7 @@ WHISPER     : user:manage:whispers           :  send whisper message to user
 EXAMPLE OF AUTH URLS:                                                                          =========================
 ========================================================================================================================
 bot - mod + editor
-https://id.twitch.tv/oauth2/authorize?client_id=zgstlx485cq9z4pnt71oangqv9t4y5
+https://id.twitch.tv/oauth2/authorize?client_id=
 &redirect_uri=https://bot.wlg.tv/auth&scope=user:read:email+user:read:follows+user:read:subscriptions+chat:read+chat:edit+user:read:chat+user:write:chat+clips:edit+whispers:read+whispers:edit+user:manage:whispers+channel:moderate+moderator:read:followers+moderator:read:chatters+moderator:manage:chat_settings+moderator:manage:announcements+moderator:manage:shoutouts+moderator:manage:guest_star+moderator:manage:automod+moderator:read:automod_settings+moderator:manage:automod_settings+moderator:manage:banned_users+moderator:manage:blocked_terms+moderator:manage:chat_messages+moderator:manage:shield_mode+channel:manage:polls+channel:manage:predictions+channel:manage:broadcast&response_type=code&state=dummy&force_verify=true
 
 https://id.twitch.tv/oauth2/authorize
