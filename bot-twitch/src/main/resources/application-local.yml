@@ -7,7 +7,7 @@ MONGODB_ROOT_USER: mongoroot
 MONGODB_ROOT_PASSWORD: WL6B0tPAssw0rd
 
 #MONGODB Spring Configurations (for application to startup)
-MONGODB_HOST_NAME: localhost
+MONGODB_HOST_NAME: mongodb
 MONGODB_AUTH_DATABASE: admin
 
 mongodb:
@@ -31,3 +31,7 @@ app:
     id: 3toh7ur3q0vlzbqtovdgg4zfnc6kp3
     secret: 1j21360uuw0je8cgmxg79ex93y8l1g
     redirect: http://localhost:15610/auth
+
+  logging:
+    file:
+      enabled: false

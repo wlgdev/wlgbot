@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <springProperty name="IS_FILE_APPENDER_ENABLED" source="app.logging.file.enabled" defaultValue="false"/>
+    <if condition='property("IS_FILE_APPENDER_ENABLED").equals("true")'>
+        <then>
+            <springProperty name="LOG_FILE" source="app.logging.file.name" defaultValue="app.log"/>
+
+            <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+            <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+
+            <appender name="ASYNC_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+                <appender-ref ref="FILE"/>
+            </appender>
+        </then>
+    </if>
+</included>
