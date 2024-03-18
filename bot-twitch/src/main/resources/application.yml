@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active:
+      local
+
+server:
+  port: 15610
+
+app:
+  logging:
+    level:
+      root: WARN
+      app: DEBUG
+
+    file:
+      name: bot.twitch.log

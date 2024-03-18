@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tv.wlg.bot</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>bot-twitch</artifactId>
+
+    <name>bot-twitch</name>
+    <description>bot-twitch</description>
+
+    <properties>
+        <!-- DEPENDENCY VERSIONS -->
+        <bot.logging.version>0.0.1-SNAPSHOT</bot.logging.version>
+        <tyrus.version>2.1.5</tyrus.version>
+    </properties>
+
+    <dependencies>
+        <!-- SPRING BOOT DEPENDENCIES -->
+        <dependency> <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- DATASTORE DEPENDENCIES -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <!-- APPLICATION DEPENDENCIES-->
+        <dependency>
+            <groupId>tv.wlg.bot</groupId>
+            <artifactId>logging</artifactId>
+            <version>${bot.logging.version}</version>
+        </dependency>
+        <dependency> <!-- WebSocket to get Twitch Events -->
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-client</artifactId>
+            <version>${tyrus.version}</version>
+        </dependency>
+
+        <!-- TEST DEPENDENCIES -->
+    </dependencies>
+</project>

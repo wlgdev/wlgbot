@@ -1,0 +1,19 @@
+app:
+  logging:
+    level:
+      root: WARN
+      app: INFO
+
+    filter:
+      duplicate-message-filter:
+        enabled: true
+        markers:
+          FILTERED
+          EXAMPLE
+        repeats: 5
+        expire: 60
+        cache-size: 100
+
+    file:
+      enabled: false
+      name: app.log

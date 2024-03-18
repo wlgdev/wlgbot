@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <springProperty name="IS_DMF_ENABLED" source="app.logging.filter.duplicate-message-filter.enabled" defaultValue="false" />
+    <if condition='property("IS_DMF_ENABLED").equals("true")'>
+        <then>
+            <springProperty name="MARKERS" source="app.logging.filter.duplicate-message-filter.markers" />
+            <springProperty name="REPEATS" source="app.logging.filter.duplicate-message-filter.repeats" />
+            <springProperty name="EXPIRES" source="app.logging.filter.duplicate-message-filter.expire" />
+            <springProperty name="CACHE_SIZE" source="app.logging.filter.duplicate-message-filter.cache-size" />
+
+            <turboFilter class="tv.wlg.bot.logging.filter.DuplicateMessageFilter">
+                <if condition='isDefined("MARKERS")'>
+                    <then>
+                        <includeMarkers>${MARKERS}</includeMarkers>
+                    </then>
+                </if>
+                <if condition='isDefined("REPEATS")'>
+                    <then>
+                        <allowedRepetitions>${REPEATS}</allowedRepetitions>
+                    </then>
+                </if>
+                <if condition='isDefined("EXPIRES")'>
+                    <then>
+                        <expireAfterWriteSeconds>${EXPIRES}</expireAfterWriteSeconds>
+                    </then>
+                </if>
+                <if condition='isDefined("CACHE_SIZE")'>
+                    <then>
+                        <cacheSize>${CACHE_SIZE}</cacheSize>
+                    </then>
+                </if>
+            </turboFilter>
+        </then>
+    </if>
+</included>

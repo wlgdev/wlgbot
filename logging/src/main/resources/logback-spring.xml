@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- import appenders -->
+    <include resource="classic/logging-appender-file.xml" />
+    <include resource="classic/logging-appender-console.xml" />
+
+    <!-- add appenders to root and define levels -->
+    <include resource="classic/logging-common.xml" />
+
+    <!-- enables defined log filters -->
+    <include resource="classic/logging-filters.xml" />
+</configuration>

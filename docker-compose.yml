@@ -17,7 +17,7 @@ services:
       - 27015:27015
     restart: unless-stopped
     env_file:
-      - ./src/main/resources/application-${RUNTIME_ENV:-local}.yml
+      - ./bot-twitch/src/main/resources/application-${RUNTIME_ENV:-local}.yml
     volumes:
       - mongodb:/bitnami/mongodb/:rw
     networks:

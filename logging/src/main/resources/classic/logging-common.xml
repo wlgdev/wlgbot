@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <springProperty name="ROOT_LOGGING_LEVEL" source="app.logging.level.root" defaultValue="WARN"/>
+    <springProperty name="APP_LOGGING_LEVEL" source="app.logging.level.app" defaultValue="INFO"/>
+
+    <root level="${ROOT_LOGGING_LEVEL}">
+        <appender-ref ref="ASYNC_CONSOLE_APPENDER" />
+    </root>
+    <if condition='property("IS_FILE_APPENDER_ENABLED").equals("true")'>
+        <then>
+            <root>
+                <appender-ref ref="ASYNC_FILE_APPENDER" />
+            </root>
+        </then>
+    </if>
+
+    <logger name="tv.wlg.bot" level="${APP_LOGGING_LEVEL}" additivity="false">t
+        <appender-ref ref="ASYNC_CONSOLE_APPENDER" />
+    </logger>
+    <if condition='property("IS_FILE_APPENDER_ENABLED").equals("true")'>
+        <then>
+            <logger name="tv.wlg.bot">
+                <appender-ref ref="ASYNC_FILE_APPENDER" />
+            </logger>
+        </then>
+    </if>
+</included>

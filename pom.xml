@@ -4,11 +4,42 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tv.wlg.bot</groupId>
-    <artifactId>bot-twitch</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-    <name>twitch-bot</name>
-    <description>twitch-bot</description>
+    <name>parent</name>
+    <description>parent</description>
+    <packaging>pom</packaging>
+
+    <profiles>
+        <profile>
+            <id>DEFAULT</id>
+            <modules>
+                <module>bot-twitch</module>
+            </modules>
+            <activation>
+                <os>
+                    <family>WINDOWS</family>
+                </os>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>DOCKER_BUILD_bot-twitch</id>
+            <modules>
+                <!-- TARGET MODULE TO BUILD -->
+                <module>bot-twitch</module>
+
+                <!-- DEPENDENCY MODULES FOR bot-twitch -->
+                <module>logging</module>
+            </modules>
+            <activation>
+                <os>
+                    <family>LINUX</family>
+                </os>
+            </activation>
+        </profile>
+    </profiles>
 
     <properties>
         <java.version>21</java.version>
@@ -32,31 +63,13 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- SPRING BOOT DEPENDENCIES -->
-        <dependency> <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        <!-- COMMON APP DEPENDENCIES -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- DATASTORE DEPENDENCIES -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-
-        <!-- APPLICATION DEPENDENCIES-->
-        <dependency> <!-- WebSocket to get Twitch Events -->
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-client</artifactId>
-            <version>2.1.5</version>
-        </dependency>
-
-
-        <!-- TEST DEPENDENCIES -->
+        <!-- COMMON TEST DEPENDENCIES -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -66,6 +79,7 @@
 
     <build>
         <plugins>
+            <!-- COMMON BUILD PLUGINS -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
