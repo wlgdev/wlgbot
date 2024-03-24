@@ -15,7 +15,7 @@
 
     <properties>
         <!-- DEPENDENCY VERSIONS -->
-        <bot.logging.version>0.0.1-SNAPSHOT</bot.logging.version>
+        <bot.core.version>0.0.1-SNAPSHOT</bot.core.version>
         <tyrus.version>2.1.5</tyrus.version>
     </properties>
 
@@ -35,8 +35,8 @@
         <!-- APPLICATION DEPENDENCIES-->
         <dependency>
             <groupId>tv.wlg.bot</groupId>
-            <artifactId>logging</artifactId>
-            <version>${bot.logging.version}</version>
+            <artifactId>core</artifactId>
+            <version>${bot.core.version}</version>
         </dependency>
         <dependency> <!-- WebSocket to get Twitch Events -->
             <groupId>org.glassfish.tyrus</groupId>

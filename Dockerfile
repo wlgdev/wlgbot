@@ -12,6 +12,7 @@ COPY .mvn ./.mvn
 COPY mvnw ./mvnw
 COPY pom.xml ./pom.xml
 COPY ${module} ./${module}
+COPY core ./core
 COPY logging ./logging
 
 ###  ============      EXECUTE  COMPILATION      ============  ###
