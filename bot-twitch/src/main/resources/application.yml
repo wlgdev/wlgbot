@@ -14,3 +14,4 @@ app:
 
     file:
       name: bot.twitch.log
+      enabled: false

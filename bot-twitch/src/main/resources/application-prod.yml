@@ -31,7 +31,3 @@ app:
     id: ${PROD_ASSISTANT_CLIENT_ID}
     secret: ${PROD_ASSISTANT_CLIENT_SECRET}
     redirect: ${PROD_ASSISTANT_CLIENT_REDIRECT}
-
-  logging:
-    file:
-      enabled: false
