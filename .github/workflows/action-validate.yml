@@ -11,8 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: PULL project sources
-        uses: actions/checkout@v4
       - name: SetUp JAVA_HOME
         uses: actions/setup-java@v4
         with:
@@ -20,8 +18,15 @@ jobs:
           distribution: 'microsoft'
           cache: 'maven'
           check-latest: true
-      - name: Print Maven Version
+      - name: SetUp MAVEN
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.5
+      - name: PRINT runtime info
         run: mvn --version
+
+      - name: PULL project sources
+        uses: actions/checkout@v4
       - name: Download Maven Dependencies
         run: mvn -P bot-twitch,bot-dependencies  dependency:go-offline
       - name: Build with Maven
