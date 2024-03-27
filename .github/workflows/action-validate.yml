@@ -30,6 +30,6 @@ jobs:
           echo "IS_GITHUB_ACTION = $IS_GITHUB_ACTION"
 
       - name: Download Maven Dependencies
-        run: mvn dependency:go-offline
+        run: mvn -DIS_GITHUB_ACTION=enabled dependency:go-offline
       - name: Build with Maven
-        run: mvn -am clean verify -DskipTests=true
+        run: mvn -DIS_GITHUB_ACTION=enabled -am clean verify -DskipTests=true
