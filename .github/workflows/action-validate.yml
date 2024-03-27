@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: PULL project sources
+        uses: actions/checkout@v4
+
       - name: SetUp JAVA_HOME
         uses: actions/setup-java@v4
         with:
@@ -25,8 +28,6 @@ jobs:
       - name: PRINT runtime info
         run: mvn --version
 
-      - name: PULL project sources
-        uses: actions/checkout@v4
       - name: Download Maven Dependencies
         run: mvn -P bot-twitch,bot-dependencies  dependency:go-offline
       - name: Build with Maven
