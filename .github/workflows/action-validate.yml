@@ -1,0 +1,26 @@
+name: validate project compiles
+run-name: ${{ github.actor }} triggered validation
+on:
+  - push
+
+jobs:
+  validate:
+    env:
+      IS_GITHUB_ACTION: true
+      JAVA_VERSION: '21'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: CheckOut project sources
+        uses: actions/checkout@v4
+      - name: SetUp JAVA_HOME
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'microsoft'
+          cache: 'maven'
+          check-latest: true
+      - name: Download Maven Dependencies
+        run: mvn -P bot-twitch,bot-dependencies  dependency:go-offline
+      - name: Build with Maven
+        run: mvn -am clean verify -DskipTests=true
