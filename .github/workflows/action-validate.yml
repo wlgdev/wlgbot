@@ -1,5 +1,5 @@
 name: validate project compiles
-run-name: ${{ github.actor }} triggered validation (on ${{ github.ref }})
+run-name: validation | on ${{ github.ref }} | by ${{ github.actor }}
 on:
   - push
 
