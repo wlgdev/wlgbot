@@ -35,6 +35,22 @@
                 </os>
             </activation>
         </profile>
+        <profile>
+            <id>GITHUB_ACTIONS_BUILD</id>
+            <modules>
+                <!-- main modules -->
+                <module>bot-twitch</module>
+
+                <!-- modules dependencies -->
+                <module>core</module>
+                <module>logging</module>
+            </modules>
+            <activation>
+                <property>
+                    <name>IS_GITHUB_ACTION</name>
+                </property>
+            </activation>
+        </profile>
     </profiles>
 
     <properties>
@@ -87,6 +103,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
             </plugin>
         </plugins>
     </build>
